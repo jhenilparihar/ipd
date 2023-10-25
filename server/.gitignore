@@ -1,0 +1,6 @@
+../.vscode
+__pycache__/
+api/__pycache__/
+recommendation/__pycache__/
+recommendation/migrations/__pycache__/
+recommendation/migrations/
