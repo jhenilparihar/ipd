@@ -3,13 +3,25 @@ import { useState } from "react";
 
 const Home = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
 
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
+  const getLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          const { latitude, longitude } = position.coords;
+          console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+          setLatitude(latitude);
+          setLongitude(longitude);
+        },
+        (error) => {
+          console.error("Error getting user's location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not available in this browser.");
+    }
   };
 
   return (
@@ -24,12 +36,9 @@ const Home = () => {
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sodales
         velit arcu, a fringilla ex scelerisque at. Proin vehicula, augue vel
       </p>
-
-      <button
-        onClick={openModal}
-        className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded"
-      >
-        Open Modal
+      <br />
+      <button onClick={() => setIsModalOpen(true)} className="black_btn">
+        Ask AI
       </button>
 
       {isModalOpen && (
@@ -44,24 +53,49 @@ const Home = () => {
               <input
                 className="border max-w-[200px] px-2 py-1 rounded-lg my-2"
                 type="text"
-                placeholder="Langitude"
+                placeholder="Latitude"
+                value={latitude}
                 disabled
               ></input>
               <input
                 className="border max-w-[200px] px-2 py-1 rounded-lg my-2"
                 type="text"
                 placeholder="Longitude"
+                value={longitude}
                 disabled
               ></input>
-              <button className="bg-blue-500 w-fit h-fit px-3 rounded-lg py-1 text-white">
+              <button
+                className="bg-blue-500 w-fit h-fit px-3 rounded-lg py-1 text-white"
+                onClick={getLocation}
+              >
                 Get Location
               </button>
             </div>
+            <input
+              className="border px-2 py-1 rounded-lg my-2"
+              type="text"
+              placeholder="Nitrogen (N)"
+            ></input>
+            <input
+              className="border px-2 py-1 rounded-lg my-2"
+              type="text"
+              placeholder="Phosphorus (P)"
+            ></input>
+            <input
+              className="border px-2 py-1 rounded-lg my-2"
+              type="text"
+              placeholder="Potassium (K)"
+            ></input>
+            <input
+              className="border px-2 py-1 rounded-lg my-2"
+              type="text"
+              placeholder="Soil pH"
+            ></input>
             <button
-              onClick={closeModal}
-              className="bg-red-500 hover:bg-red-600 text-white font-semibold mt-4 py-2 px-4 rounded"
+              onClick={() => setIsModalOpen(false)}
+              className="bg-red-500 hover:bg-red-600 text-white font-semibold mt-4 py-2 px-6 rounded-full w-fit"
             >
-              Close Modal
+              Close
             </button>
           </div>
         </div>
