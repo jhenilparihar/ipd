@@ -4,17 +4,34 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { ScaleLoader } from "react-spinners";
 import { toast } from "react-toastify";
+import { useSpeechSynthesis } from 'react-speech-kit';
+
 
 const PredictDiseaseFromSymptoms = () => {
-  const [options, setOptions] = useState([]);
-  const [to, setTo] = useState("en");
-  const [from, setFrom] = useState("en");
-  const [input, setInput] = useState("");
-  const [output, setOutput] = useState("");
+
+  const [value1, setValue1] = useState('Massage can be soothing for babies. Make sure the room is warm, your baby is quiet, well-rested and alert, and you’re relaxed. Try massage after your baby’s nap, when they’re being changed or in the cot, or after a bath. You can do massage for 10-30 minutes.');
+  const [value2, setValue2] = useState('Smooth sorbolene cream or lotion into your warm hands and massage the soles of your baby’s feet. Use firm, gentle, slow strokes from heel to toe. Always keep one hand on your baby.');
+  const [value3, setValue3] = useState('Do long smooth strokes up your baby’s leg. Massage from ankle up to thigh and over hip. Massage both legs at once or one at a time. Avoid the genital area. Hold your baby’s leg under the knee and gently press it towards the tummy to release wind.');
+  const { speak, cancel, speaking } = useSpeechSynthesis();
+
+
+
+
+  // const [options, setOptions] = useState([]);
+  // const [to, setTo] = useState("en");
+  // const [from, setFrom] = useState("en");
+  // const [input, setInput] = useState("");
+  // const [output, setOutput] = useState("");
 
   const [symptoms, setSymptoms] = useState([]);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
+
+
+  const stopSpeaking = () => {
+    cancel();
+  };
+
 
   //   const translate = () => {
   //     const params = new URLSearchParams();
@@ -36,16 +53,16 @@ const PredictDiseaseFromSymptoms = () => {
   //       });
   //   };
 
-  useEffect(() => {
-    axios
-      .get("https://libretranslate.de/languages", {
-        headers: { accept: "application/json" },
-      })
-      .then((res) => {
-        console.log(res.data);
-        setOptions(res.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("https://libretranslate.de/languages", {
+  //       headers: { accept: "application/json" },
+  //     })
+  //     .then((res) => {
+  //       console.log(res.data);
+  //       setOptions(res.data);
+  //     });
+  // }, []);
 
   const onEnterPress = async (event) => {
     if (event.key === "Enter") {
@@ -117,9 +134,11 @@ const PredictDiseaseFromSymptoms = () => {
               {data.DiseaseName}
             </div>
             <div className="text-[24px] mt-[20px]">
+
               <span className="text-dark2 mr-[15px]">
                 Treatments &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:{" "}
               </span>
+
             </div>
             <div className="flex flex-col gap-y-[15px] mt-[30px]">
               {data.Treatment.map((d, index) => {
@@ -128,6 +147,15 @@ const PredictDiseaseFromSymptoms = () => {
                     <div>{index + 1}.</div>
                     <div>
                       {d.treatmentName} : {d.treatment}
+                      <div className='flex items-center'>
+                        <img className='w-[20px] h-[20px] '
+                          src='/assets/images/speaker.png'
+                          onClick={() => speak({ text: d.treatment })}
+                        />
+                        <button className='w-[70px] h-[20px] p-[2px] text-[12px] rounded-[5px] ml-[10px] bg-orange-300 ' onClick={stopSpeaking} disabled={!speaking}>
+                          Stop
+                        </button>
+                      </div>
                     </div>
                   </div>
                 );

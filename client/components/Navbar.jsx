@@ -27,7 +27,9 @@ const Navbar = () => {
           <Link href="/crop-disease" className="black_btn">
             Crop Diseases 
           </Link>
-
+          <Link href="/cropRecommendation" className="black_btn">
+            Crop Recommendation 
+          </Link>
           <button type="button" onClick={null} className="outline_btn">
             Sign Out
           </button>
