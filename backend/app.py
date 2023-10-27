@@ -5,6 +5,8 @@ from flask import Flask, jsonify, request
 from flask_restful import Api
 # from resources.user import (Signup, Login, Secure, GetUser, UpdateUser)
 from resources.predictDisease import PredictDisease
+from resources.cropRecommendation import cropRecommendation
+
 # from resources.medicine import Medicine
 # from resources.remedies import AyurvedicRemedies
 # from resources.AyurvedicDoshas import AyurvedicDoshas
@@ -30,6 +32,8 @@ app.config["JWT_SECRET_KEY"] = "all_stackers_going_to_win_hackathon"
 
 
 api.add_resource(PredictDisease, "/predictDisease")
+api.add_resource(cropRecommendation, "/cropRecommendation")
+
 
 @app.route('/translate', methods=['GET'])
 def translate_text():
