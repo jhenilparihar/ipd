@@ -18,14 +18,14 @@ const Navbar = () => {
           height={30}
           className="object-contain"
         />
-        <p className="logo_text">Crop Recommendation</p>
+        <p className="logo_text">Crop Solution</p>
       </Link>
 
       {/* Desktop Navigation */}
       <div className="sm:flex hidden">
         <div className="flex gap-3 md:gap-5">
-          <Link href="/" className="black_btn">
-            AI Planner
+          <Link href="/crop-disease" className="black_btn">
+            Crop Diseases 
           </Link>
 
           <button type="button" onClick={null} className="outline_btn">
